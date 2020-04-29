@@ -14,7 +14,7 @@ import (
 )
 
 const address = "https://www.bonbast.com/"
-const timeLayout = "Fri, 23 Aug 2019 00:01:01"
+const timeFormat = "January 02, 2006 15:04 MST"
 
 // Adapter TBA
 type Adapter struct {
@@ -42,7 +42,7 @@ func (a *Adapter) GetPriceList() (*pkg.PriceList, error) {
 	var errors error
 
 	a.collector.OnHTML("body", func(body *colly.HTMLElement) {
-		updatedAt, err := time.Parse(time.RFC1123, fmt.Sprintf("%s UTC", body.ChildText(".miladi.utc")))
+		updatedAt, err := time.Parse(timeFormat, fmt.Sprintf("%s UTC", body.ChildText(".miladi.utc")))
 		if err != nil {
 			errors = multierror.Append(errors, err)
 		}
